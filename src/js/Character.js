@@ -10,4 +10,12 @@ export default class Character {
     this.type = type;
     // TODO: throw error if user use "new Character()"
   }
+
+  levelUp() {
+    this.level += 1;
+    this.health += 80;
+    if (this.health > 100) {
+      this.health = 100;
+    }
+  }
 }
