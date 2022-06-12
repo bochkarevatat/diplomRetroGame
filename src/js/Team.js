@@ -36,10 +36,6 @@ import Vampire from './types/Vampire';
 import Undead from './types/Undead';
 
 export default class Team {
-  static getStartHumanTeam() {
-    return [new Bowman(1), new Swordsman(1)];
-  }
-
   static getHumanTeam() {
     return [Magician, Bowman, Swordsman];
   }
