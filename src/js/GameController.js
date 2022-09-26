@@ -8,6 +8,7 @@ import PositionedCharacter from './PositionedCharacter';
 import Team from './Team';
 import cursors from './cursors';
 import themes from './themes';
+import checkedPositions from './checkedPositions';
 
 let selectedCharacterIndex = 0;
 let checkedDistance;
@@ -15,6 +16,7 @@ let checkedDistanceAttack;
 let checkedPosition;
 let boardSize;
 
+checkedPositions();
 const icons = {
   level: '\u{1F396}',
   attack: '\u{2694}',
@@ -24,40 +26,6 @@ const icons = {
 
 function getInfoCharacter(character) {
   return `${icons.level}${character.level} ${icons.attack}${character.attack} ${icons.defence}${character.defence} ${icons.health}${character.health}`;
-}
-
-function checkedPositions(position, distance, size) {
-  const values = [];
-  const indexRow = Math.floor(position / size);
-  const indexColumn = position % size;
-
-  for (let i = 1; i <= distance; i += 1) {
-    if (indexColumn + i < size) {
-      values.push(indexRow * size + (indexColumn + i));
-    }
-    if (indexColumn - i >= 0) {
-      values.push(indexRow * size + (indexColumn - i));
-    }
-    if (indexRow + i < size) {
-      values.push((indexRow + i) * size + indexColumn);
-    }
-    if (indexRow - i >= 0) {
-      values.push((indexRow - i) * size + indexColumn);
-    }
-    if (indexRow + i < size && indexColumn + i < size) {
-      values.push((indexRow + i) * size + (indexColumn + i));
-    }
-    if (indexRow - i >= 0 && indexColumn - i >= 0) {
-      values.push((indexRow - i) * size + (indexColumn - i));
-    }
-    if (indexRow + i < size && indexColumn - i >= 0) {
-      values.push((indexRow + i) * size + (indexColumn - i));
-    }
-    if (indexRow - i >= 0 && indexColumn + i < size) {
-      values.push((indexRow - i) * size + (indexColumn + i));
-    }
-  }
-  return values;
 }
 
 export default class GameController {
@@ -132,7 +100,7 @@ export default class GameController {
   }
 
   // Персонажи генерируются рандомно в столбцах 1 и 2 для игрока и в столбцах 7 и 8 для компьютера:
-  randomPosition(column = 0) {
+  static randomPosition(column = 0) {
     return (Math.floor(Math.random() * 8) * 8) + ((Math.floor(Math.random() * 2) + column));
   }
 
@@ -319,7 +287,7 @@ export default class GameController {
     }
   }
 
-  attackDefence(attackBefore, life) {
+  static attackDefence(attackBefore, life) {
     return Math.floor(Math.max(attackBefore, attackBefore * (1.8 - life / 100)));
   }
 
@@ -461,7 +429,7 @@ export default class GameController {
     return index % this.gamePlay.boardSize;
   }
 
-  distanceIndex(row, column) {
+  static distanceIndex(row, column) {
     return (row * 8) + column;
   }
 }
